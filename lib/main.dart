@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,6 +33,30 @@ class _MyHomePageState extends State<MyHomePage> {
   int count = 0;
   bool isStarted = false;
 
+  double accX = 0, accY = 0, accZ = 0;
+  double gyroX = 0, gyroY = 0, gyroZ = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    userAccelerometerEvents.listen((event) {
+      setState(() {
+        accX = event.x;
+        accY = event.y;
+        accZ = event.z;
+      });
+    });
+
+    gyroscopeEvents.listen((event) {
+      setState(() {
+        gyroX = event.x;
+        gyroY = event.y;
+        gyroZ = event.z;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
               '$count',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            const SizedBox(height: 30),
+            Text('A{$accX,$accY,$accZ) | G($gyroX,$gyroY,$gyroZ)'),
           ],
         ),
       ),
