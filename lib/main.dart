@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
+const int SAMPLE_RATE = 1000;
+
 void main() {
   runApp(const MyApp());
 }
@@ -33,6 +35,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int count = 0;
   bool isStarted = false;
 
+  DateTime? lastRecordedAcc;
+  DateTime? lastRecordedGyro;
+
   double accX = 0, accY = 0, accZ = 0;
   double gyroX = 0, gyroY = 0, gyroZ = 0;
 
@@ -41,19 +46,37 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     userAccelerometerEvents.listen((event) {
-      setState(() {
-        accX = event.x;
-        accY = event.y;
-        accZ = event.z;
-      });
+      DateTime? last = lastRecordedAcc;
+      DateTime now = DateTime.now();
+      int? diff = last != null
+          ? now.millisecondsSinceEpoch - last.millisecondsSinceEpoch
+          : null;
+
+      if (diff == null || diff > SAMPLE_RATE) {
+        setState(() {
+          accX = event.x;
+          accY = event.y;
+          accZ = event.z;
+          lastRecordedAcc = now;
+        });
+      }
     });
 
     gyroscopeEvents.listen((event) {
-      setState(() {
-        gyroX = event.x;
-        gyroY = event.y;
-        gyroZ = event.z;
-      });
+      DateTime? last = lastRecordedGyro;
+      DateTime now = DateTime.now();
+      int? diff = last != null
+          ? now.millisecondsSinceEpoch - last.millisecondsSinceEpoch
+          : null;
+
+      if (diff == null || diff > SAMPLE_RATE) {
+        setState(() {
+          gyroX = event.x;
+          gyroY = event.y;
+          gyroZ = event.z;
+          lastRecordedGyro = now;
+        });
+      }
     });
   }
 
