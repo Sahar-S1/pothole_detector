@@ -75,7 +75,12 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 30),
-            Text('A{$accX,$accY,$accZ) | G($gyroX,$gyroY,$gyroZ)'),
+            Text(
+              'A{${accX.toStringAsFixed(2)},${accY.toStringAsFixed(2)},${accZ.toStringAsFixed(2)})'
+              ' | '
+              'G(${gyroX.toStringAsFixed(2)},${gyroY.toStringAsFixed(2)},${gyroZ.toStringAsFixed(2)})',
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),
