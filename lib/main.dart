@@ -5,6 +5,7 @@ import 'package:sensors_plus/sensors_plus.dart';
 import 'package:pothole_detector/geolocator.dart';
 
 const int SAMPLE_RATE = 1000;
+const int THRESHOLD = 7;
 
 void main() {
   runApp(const MyApp());
@@ -46,6 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Position? currentPosition;
 
+  bool isPothole = false;
+
   @override
   void initState() {
     super.initState();
@@ -63,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
           accY = event.y;
           accZ = event.z;
           lastRecordedAcc = now;
+          isPothole = isPothole || accZ > THRESHOLD;
         });
       }
     });
@@ -113,6 +117,19 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               currentPosition.toString(),
               textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 30),
+            IconButton(
+              icon: Icon(
+                Icons.circle,
+                color: isPothole ? Colors.red : Colors.green,
+              ),
+              iconSize: 100,
+              onPressed: () {
+                setState(() {
+                  isPothole = false;
+                });
+              },
             ),
           ],
         ),
