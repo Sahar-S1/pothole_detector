@@ -67,8 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
           accY = event.y;
           accZ = event.z;
           lastRecordedAcc = now;
-          isPothole = isPothole || accZ > THRESHOLD;
-          if (accZ > THRESHOLD) reportPothole(context, accZ);
+          isPothole = isPothole || accZ < -THRESHOLD;
+          if (accZ < -THRESHOLD) reportPothole(context, accZ);
         });
       }
     });
