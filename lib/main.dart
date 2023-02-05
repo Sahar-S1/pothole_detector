@@ -139,6 +139,12 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         child: Icon(isStarted ? Icons.pause : Icons.play_arrow),
         onPressed: () async {
+          if (count.toString().endsWith("99")) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Victory 🥳🥳🥳")),
+            );
+          }
+
           Position? pos;
 
           try {
