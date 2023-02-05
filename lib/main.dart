@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:sensors_plus/sensors_plus.dart';
+
+import 'package:pothole_detector/geolocator.dart';
 
 const int SAMPLE_RATE = 1000;
 
@@ -40,6 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   double accX = 0, accY = 0, accZ = 0;
   double gyroX = 0, gyroY = 0, gyroZ = 0;
+
+  Position? currentPosition;
 
   @override
   void initState() {
@@ -104,15 +109,29 @@ class _MyHomePageState extends State<MyHomePage> {
               'G(${gyroX.toStringAsFixed(2)},${gyroY.toStringAsFixed(2)},${gyroZ.toStringAsFixed(2)})',
               textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 30),
+            Text(
+              currentPosition.toString(),
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(isStarted ? Icons.pause : Icons.play_arrow),
-        onPressed: () {
+        onPressed: () async {
+          Position? pos;
+
+          try {
+            pos = await determinePosition();
+          } catch (e) {
+            print(e);
+          }
+
           setState(() {
             count++;
             isStarted = !isStarted;
+            currentPosition = pos;
           });
         },
       ),

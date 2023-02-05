@@ -38,6 +38,8 @@ dependencies:
 
   # Accelerometer and Gyroscope Sensor
   sensors_plus: ^2.0.1
+  # GPS Sensor
+  geolocator: ^9.0.2
 
 dev_dependencies:
   flutter_test:
