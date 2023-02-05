@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 import 'package:pothole_detector/geolocator.dart';
+import 'package:pothole_detector/pothole_reporter.dart';
 
 const int SAMPLE_RATE = 1000;
 const int THRESHOLD = 7;
@@ -67,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
           accZ = event.z;
           lastRecordedAcc = now;
           isPothole = isPothole || accZ > THRESHOLD;
+          if (accZ > THRESHOLD) reportPothole(accZ);
         });
       }
     });
