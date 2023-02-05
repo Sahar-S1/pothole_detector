@@ -5,7 +5,7 @@ import 'package:sensors_plus/sensors_plus.dart';
 import 'package:pothole_detector/geolocator.dart';
 import 'package:pothole_detector/pothole_reporter.dart';
 
-const int SAMPLE_RATE = 1000;
+const int SAMPLE_RATE = 100;
 const int THRESHOLD = 7;
 
 void main() {
