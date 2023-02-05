@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:pothole_detector/geolocator.dart';
 
 const String TOKEN = "xmLHqhccNdNafFLFqVKXFL127l3Ethyl";
@@ -10,10 +11,10 @@ var dio = Dio(
   ),
 );
 
-Future<void> reportPothole(double accZ) async {
+Future<void> reportPothole(BuildContext ctx, double accZ) async {
   var pos = await determinePosition();
 
-  await dio.post(
+  var res = await dio.post(
     'items/pothole',
     options: Options(
       headers: {
@@ -27,5 +28,11 @@ Future<void> reportPothole(double accZ) async {
       },
       "severity": accZ,
     },
+  );
+
+  ScaffoldMessenger.of(ctx).showSnackBar(
+    SnackBar(
+      content: Text(res.data.toString()),
+    ),
   );
 }
